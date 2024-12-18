@@ -1,0 +1,26 @@
+title: the Simplex theme
+logo_img: /assets/img/icons/golasblog_logo.svg
+favicon: /assets/favicon.ico
+description: description
+remote_theme : andreondra/jekyll-theme-simplex
+url                      : "https://GIM-YOUNG-JOO.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl                  : "" # the subpath of your site, e.g. "/blog"
+global_tags: jekyll theme simplex golasblog responsive html5
+copyright: © Golasowski 2021
+
+sass:
+    style: compressed
+
+collections:
+    category:
+        output: true
+    authors:
+        output: false
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: category
+    values:
+      layout: "category"
