@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+      /* 뷰포트 전체를 차지하는 컨테이너 */
+      .section-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden; /* 섹션 겹침 영역 밖은 안 보이도록 */
+      }
+
+      /* 겹쳐 놓을 섹션들(기존 d-flex로 수평/수직 중앙 정렬) */
+      .section-container section {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* 4번 섹션에서 flex-column 필요하면 적용 */
+
+        /* 페이드 전환 */
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+      }
+
+      /* 현재 활성화된 섹션만 보이도록 */
+      .section-container section.active {
+        opacity: 1;
+        z-index: 1;
+      }
+
+      /* 글자 크기 */
+      p {
+        font-size: 5vw;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 모든 섹션을 감싸는 컨테이너 -->
+    <div class="section-container">
+      <!-- 1번 섹션 -->
+      <section class="d-flex justify-content-center align-items-center">
+        <p>안녕하세요.</p>
+      </section>
+
+      <!-- 2번 섹션 -->
+      <section class="d-flex justify-content-center align-items-center">
+        <p>수더분한 개발자</p>
+      </section>
+
+      <!-- 3번 섹션 -->
+      <section class="d-flex justify-content-center align-items-center">
+        <p>김영주입니다</p>
+      </section>
+
+      <!-- 4번 섹션 (포트폴리오) -->
+      <section class="d-flex justify-content-center align-items-center flex-column">
+        <h1>Portfolio</h1>
+        <div>
+          포트폴리오를 만들어보자
+          <br />
+          천천히 만들자
+        </div>
+        <div class="w-100 p-5">
+          <div class="row mt-5">
+            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+              <div class="card">
+                <img class="card-img-top bg-info" src="https://github.com/GIM-YOUNG-JOO/codebrew/blob/master/src/main/webapp/resources/image/codebrew.jpg?raw=true" />
+                <div class="card-body text-center">
+                  <h1 class="card-title">Code Brew</h1>
+                  <button class="btn btn-outline-dark btn-lg rounded-fill" value="order" data-bs-toggle="modal" data-bs-target="#exampleModal">Introduce</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+              <div class="card">
+                <img class="card-img-top bg-info" src="https://github.com/GIM-YOUNG-JOO/let-ffle-front/blob/master/src/assets/letffle.png?raw=true" />
+                <div class="card-body text-center">
+                  <h1 class="card-title">Let-FFle</h1>
+                  <button class="btn btn-outline-dark btn-lg rounded-fill" value="order" data-bs-toggle="modal" data-bs-target="#exampleModal">Introduce</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+              <div class="card">
+                <img class="card-img-top bg-info" width="100px" height="100px" />
+                <div class="card-body text-center">
+                  <h1 class="card-title">TAYU</h1>
+                  <button class="btn btn-outline-dark btn-lg rounded-fill" value="order" data-bs-toggle="modal" data-bs-target="#exampleModal">Introduce</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 모달 -->
+    <div class="modal" tabindex="-1" id="exampleModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">테스트 모달</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>여기에 PPT를 넣을까 뭘 넣을까</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll(".section-container section");
+        let currentIndex = 0;
+        let isTransitioning = false; // 중복 전환 방지
+        const TRANSITION_DURATION = 800; // 0.8초 (ms)
+
+        // 첫 번째 섹션 활성화
+        sections[currentIndex].classList.add("active");
+
+        // 휠 이벤트 한 번만 등록 (전체 문서나 .section-container에)
+        document.addEventListener(
+          "wheel",
+          (event) => {
+            if (isTransitioning) {
+              // 전환 중이면 추가 스크롤 무시
+              event.preventDefault();
+              return;
+            }
+
+            event.preventDefault();
+            isTransitioning = true;
+
+            // 현재 섹션 숨기기
+            sections[currentIndex].classList.remove("active");
+
+            // 위/아래 구분
+            if (event.deltaY > 0) {
+              // 아래로 스크롤(다음)
+              currentIndex++;
+            } else {
+              // 위로 스크롤(이전)
+              currentIndex--;
+            }
+
+            // 범위 벗어나지 않도록 보정
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= sections.length) currentIndex = sections.length - 1;
+
+            // 새 섹션 보이기
+            sections[currentIndex].classList.add("active");
+
+            // 페이드 전환 0.8초 뒤에 전환 가능 상태 복귀
+            setTimeout(() => {
+              isTransitioning = false;
+            }, TRANSITION_DURATION);
+          },
+          { passive: false }
+        );
+      });
+    </script>
+  </body>
+</html>
